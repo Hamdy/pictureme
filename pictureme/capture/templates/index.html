@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block  title %} INDEX {% endblock %}
+
+{% block  css %} 
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}/webcam/django-webcam.css" />
+{% endblock %}
+
+{% block  js %}
+<script type="text/javascript" src="{{ STATIC_URL }}webcam/jquery.django-webcam.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}webcam/django-webcam.js"></script>
+
+{% endblock %}
+
+{% block  body %} 
+{% include "camera.html" %}
+{% endblock %}
+

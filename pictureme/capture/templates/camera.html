@@ -1,0 +1,55 @@
+{% load i18n static %}<input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ value }}"/>
+<img class="camera-preview" id="{{ attrs.id }}-image" width="{{ width }}" height="{{ height }}"/>
+<script type="text/javascript">
+    $(window).load(function () {
+        var previous_data = $('#{{ attrs.id }}').attr('value');
+        if (previous_data != "") {
+            $("#{{ attrs.id }}-image").attr('src', previous_data);
+        }
+    });
+    $(window).load(function () {
+        SingleMonitor({swffile:"{% static 'webcam/jscam.swf' %}"});
+    });
+    
+    $(window).ready(function(){
+    	$('#print_image').toggle();
+	$('#browserPrint').toggle();
+    });
+
+</script>
+
+<script type="text/javascript">
+
+function printImg() {
+ 	$.ajax({
+        type: "POST",
+        url: "/print",
+        dataType: "json",
+        data: {"base64Image":document.getElementById("-image").src},
+        success: function(){
+    		$('#status').text('ORDER SENT SUCCESSFULLY TO PRINTER - PLEASE CHECK YPUR PRINTER IF NO OUTPUT');
+  		},	
+  		error: function(){
+    		$('#status').text('ERROR: PlEASE MAKE SURE THAT (lp)  tool IS INSTALLED');
+  		}
+    });
+ }
+ 
+function printImage(){
+	$('#runCamera').hide();
+	$('#print_image').hide();
+	$('#browserPrint').hide();
+	window.print();
+}
+
+</script>
+
+<br/>
+<input type="button" id="runCamera" class="btn" value='{% trans 'Run Camera' %}' onclick="window.cameramonitor.show_monitor('{{ format }}', $('#{{ attrs.id }}'), $('#{{ attrs.id }}-image'))"/>
+
+{% csrf_token %}
+<input type="button" id="print_image" class="btn" value='{% trans 'Send to printer' %}' onclick="printImg()"/>
+
+<p><a id="browserPrint" class="btnPrint" href='#' onclick="printImage()">Use Browser Printer</a></p>
+
+<h3 id=status> </h3>

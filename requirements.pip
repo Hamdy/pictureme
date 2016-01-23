@@ -1,0 +1,7 @@
+# A file contains all 3rd party python libraries required by the application
+# Please Note that you need to run the command : ./prepare_env after any modification to this file.
+
+ipython
+ipdb
+django==1.4
+pytz
